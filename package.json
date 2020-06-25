@@ -1,0 +1,23 @@
+{
+  "name": "alfred-evernote-workflow-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "node authServer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jopemachine/Alfred-evernote-workflow-backend.git"
+  },
+  "author": "jopemachine",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jopemachine/Alfred-evernote-workflow-backend/issues"
+  },
+  "homepage": "https://github.com/jopemachine/Alfred-evernote-workflow-backend#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-session": "^1.17.1"
+  }
+}
