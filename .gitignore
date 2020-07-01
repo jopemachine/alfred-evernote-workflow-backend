@@ -1,3 +1,4 @@
 /node_modules
 /accessToken.json
 /config.json
+.DS_Store
