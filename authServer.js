@@ -5,6 +5,8 @@ const app = express();
 const router = require('./authServerRouter');
 const config = require('./config.json');
 
+const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
+
 var port = normalizePort(process.env.PORT || "3000");
 app.set("port", port);
 
@@ -32,9 +34,8 @@ app.use(sessionParser({
 	saveUninitialized: true
 }));
 
+app.use(awsServerlessExpressMiddleware.eventContext())
+
 app.use('/', router);
 
-module.exports = {
-	app,
-	server,
-}
+module.exports = app;

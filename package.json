@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/jopemachine/Alfred-evernote-workflow-backend#readme",
   "dependencies": {
+    "aws-serverless-express": "^3.3.8",
+    "evernote": "^2.0.5",
     "express": "^4.17.1",
     "express-session": "^1.17.1"
   }

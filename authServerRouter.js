@@ -1,11 +1,9 @@
 const express = require("express");
 const Evernote = require("evernote");
 const router = express.Router();
-const fs = require('fs');
-
 const accessToken = require('./accessToken.json');
 
-router.get("/oauth", (req, res, next) => {
+router.get("/", (req, res, next) => {
 
   var callbackUrl = "http://localhost:3000/oauth_callback";
 
