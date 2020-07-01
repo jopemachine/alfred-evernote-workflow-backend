@@ -38,4 +38,10 @@ app.use(awsServerlessExpressMiddleware.eventContext())
 
 app.use('/', router);
 
+// 404 error
+app.use(function(req, res, next) {
+  console.log(`404 not found:: Method:${req.method}, Url: ${req.url}`);
+  next(createError(404));
+});
+
 module.exports = app;
