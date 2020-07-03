@@ -2,10 +2,13 @@ const express = require("express");
 const sessionParser = require('express-session');
 const app = express();
 
-const router = require('./authServerRouter');
 const config = require('./config.json');
 
+const Evernote = require("evernote");
+const accessToken = require('./accessToken.json');
+
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
+const createError = require('http-errors');
 
 var port = normalizePort(process.env.PORT || "3000");
 app.set("port", port);
@@ -36,7 +39,69 @@ app.use(sessionParser({
 
 app.use(awsServerlessExpressMiddleware.eventContext())
 
-app.use('/', router);
+app.get("/auth", (req, res, next) => {
+
+  var callbackUrl = `${config.awsUrl}/oauth_callback`;
+
+	const client = new Evernote.Client({
+		consumerKey: accessToken.consumerKey,
+		consumerSecret: accessToken.consumerSecret,
+		sandbox: false,
+		china: false,
+  });
+
+	client.getRequestToken(callbackUrl, function (
+		error,
+		oauthToken,
+		oauthTokenSecret
+	) {
+    
+    if (error) {
+      console.log("Temporary OAuth token error", error);
+
+      res.json({
+        Error: error,
+        Valid: false
+      })
+
+      return;
+    }
+
+	req.session.oauthToken = oauthToken;
+  req.session.oauthTokenSecret = oauthTokenSecret;
+
+  res.redirect(client.getAuthorizeUrl(oauthToken));
+  });
+});
+
+app.get("/oauth_callback", (req, res, next) => {
+
+  var client = new Evernote.Client({
+    consumerKey: accessToken.consumerKey,
+    consumerSecret: accessToken.consumerSecret,
+    sandbox: false,
+    china: false,
+  });
+  
+  client.getAccessToken(
+    req.session.oauthToken,
+    req.session.oauthTokenSecret,
+    req.query.oauth_verifier,
+    function (error, oauthToken, oauthTokenSecret, results) {
+      if (error) {
+        console.log("error in getAccessToken: ", error);
+        res.json({
+          Error: error,
+          Valid: false
+        })
+      } else {
+        res.json({
+          oauthToken
+        });
+      }
+    }
+  );
+});
 
 // 404 error
 app.use(function(req, res, next) {
