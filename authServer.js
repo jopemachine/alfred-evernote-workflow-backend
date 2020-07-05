@@ -76,6 +76,20 @@ app.get("/auth", (req, res, next) => {
 
 app.get("/oauth_callback", (req, res, next) => {
 
+  if(req.query.reason == "token_expired") {
+    res.json({
+      Msg: "Token deleted successfully."
+    })
+  } else if (req.query.reason == "cancelled"){
+    res.json({
+      Msg: "Canceled."
+    })
+  } else if (req.query.reason == "token_expired") {
+    res.json({
+      Msg: "Token expired!"
+    })
+  }
+
   var client = new Evernote.Client({
     consumerKey: accessToken.consumerKey,
     consumerSecret: accessToken.consumerSecret,
