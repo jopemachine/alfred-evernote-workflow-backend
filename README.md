@@ -1,9 +1,7 @@
 ## [Alfred-evernote-workflow](https://github.com/jopemachine/Alfred-evernote-workflow)
 
-2020 Personal Project
+Simple OAuth 1.0 server for alfred-evernote-workflow
 
-## Outline
-Alfred-evernote-workflow's backend for OAuth 1.0
 
 ## Environment
 > NodeJS
